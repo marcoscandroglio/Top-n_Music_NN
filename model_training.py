@@ -9,6 +9,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+
 def build_model():
     """
     Creates the model for the Genre Neural Network.
