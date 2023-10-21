@@ -5,9 +5,9 @@
 # Description: Model definition and training program for the Genre NN
 
 # imports
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
+# import tensorflow as tf
+# from tensorflow import keras
+# from tensorflow.keras import layers
 
 
 def build_model():
