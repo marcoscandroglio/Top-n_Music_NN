@@ -18,6 +18,6 @@ def pre_process(*args):
     # parse directory name and structure
     data_directory = args[0]
     # iterate over files in subfolders
-        # concatenate matices
-        # build corresponding label array
+    #   concatenate matices
+    #   build corresponding label array
     return data_directory
