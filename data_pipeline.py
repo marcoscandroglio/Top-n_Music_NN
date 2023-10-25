@@ -4,22 +4,22 @@
 # GitHub Repo: https://github.com/pdhopkins/CS467_music_NN
 # Description: Data pre-processing program for creating training and validation dataset
 
-
-import numpy as np
 import os
+import numpy as np
+
 
 def pre_process(data_directory: str) -> None:
     """
     Function that takes as an argument a directory path containing .npy files,
     concatenates the .npy files into a larger NumPy array while building
-    a list of training labels, and saves both as .npy files in the current 
+    a list of training labels, and saves both as .npy files in the current
     working directory.
     """
 
     # validate function arguments
     # parse directory name and structure
     if not os.path.isdir(data_directory):
-        raise FileNotFoundError(f'The directory {data_directory} does not exist or is not accessible.')
+        raise FileNotFoundError(f'{data_directory} does not exist or is not accessible.')
     # data_directory = args[0]
     data = []
     labels = []
@@ -41,8 +41,8 @@ def pre_process(data_directory: str) -> None:
 
     # shuffle data
     random_indices = np.random.permutation(len(data))
-    data = data[random_indices] # fancy indexing
-    labels = labels[random_indices] # fancy indexing
+    data = data[random_indices]  # fancy indexing
+    labels = labels[random_indices]  # fancy indexing
 
     # save NumPy arrays to current working directory
     np.save('data.npy', data)
