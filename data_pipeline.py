@@ -39,7 +39,7 @@ def pre_process(data_directory: str) -> None:
     # convert to NumPy arrays
     data = np.array(data)
     labels = np.array(labels)
-    
+
     # shuffle data
     random_indices = np.random.permutation(len(data))
     data = data[random_indices]  # fancy indexing
