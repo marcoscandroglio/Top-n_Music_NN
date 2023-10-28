@@ -39,7 +39,7 @@ def pre_process(data_directory: str) -> None:
     # convert to NumPy arrays
     data = np.array(data)
     labels = np.array(labels)
-
+    
     # shuffle data
     random_indices = np.random.permutation(len(data))
     data = data[random_indices]  # fancy indexing
@@ -75,7 +75,7 @@ def create_directories(dir_name: str, subfolder_names: list) -> None:
 
 
 def create_numpy_arrays(dir_name: str, subfolder_names: list, array_rows: int,
-                       array_columns: int, num_files: int) -> None:
+                        array_columns: int, num_files: int) -> None:
     """
     Function that creates random matices in subfolders.
     """
@@ -88,7 +88,6 @@ def create_numpy_arrays(dir_name: str, subfolder_names: list, array_rows: int,
             random_matrix = np.random.rand(array_rows, array_columns)
             file_name = f'{subfolder}random_matrix_{i}.npy'
             np.save(os.path.join(subfolder_path, file_name), random_matrix)
-
 
 
 if __name__ == "__main__":
