@@ -9,7 +9,7 @@ import numpy as np
 import tensorflow as tf
 
 
-def pre_process(data_directory: str) -> None:
+def pre_process(data_directory: str) -> tuple:
     """
     Function that takes as an argument a directory path containing .npy files,
     concatenates the .npy files into a larger NumPy array while building
@@ -55,12 +55,12 @@ def pre_process(data_directory: str) -> None:
 def create_tensorflow_dataset(data_np_arr, labels_np_arr):
     """
     Function to convert .npy files to tensorflow dataset.
-    Used for straming application.
+    Used for streaming application.
     """
     return tf.data.Dataset.from_tensor_slices((data_np_arr, labels_np_arr))
 
 
-# TODO: Create function to save TFRecord file. Note: dataset cannot be saved as a file.
+# TODO: Create function to save dataset file.
 
 # demo script functions
 def create_directories(dir_name: str, subfolder_names: list) -> None:
