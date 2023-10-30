@@ -2,7 +2,7 @@
 # Course: CS 467 Fall 2023
 # Project: Top-n Music Genre Classification Neural Network
 # GitHub Repo: https://github.com/pdhopkins/CS467_music_NN
-# Description: Model definition and training program for the Genre NN
+# Description: Librosa conversion of audio files into mel-spectrograms
 
 import os
 import librosa
