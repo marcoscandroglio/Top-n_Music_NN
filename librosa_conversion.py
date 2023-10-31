@@ -10,9 +10,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # function to plot the spectrogram
-def plot_spectrogram(Y, sr, hop_length, y_axis="linear"):
+
+
+def plot_spectrogram(y, sr, hop_length, y_axis="linear"):
     plt.figure(figsize=(25, 10))
-    librosa.display.specshow(Y,
+    librosa.display.specshow(y,
                              sr=sr,
                              hop_length=hop_length,
                              x_axis="time",
@@ -20,31 +22,39 @@ def plot_spectrogram(Y, sr, hop_length, y_axis="linear"):
     plt.colorbar(format="%+2.f")
 
 # function to process audio/generate spectrograms
+
+
 def process_audio_file(audio_file):
     # load audio file with Librosa, limiting the duration to first 30 seconds
     # if we want a selection which is 30 seconds from the middle and not the beginning,
     # then I will have to read more documentation
-    y, sr = librosa.load(audio_file, duration=30.0)
+    song_length = librosa.get_duration(path=audio_file)
+    start_time = 0
+    if song_length > 65.0:
+        start_time = song_length // 2
 
-    FRAME_SIZE = 2048
-    HOP_SIZE = 512
+    y, sr = librosa.load(audio_file, offset=start_time, duration=30.0)
+
+    frame_size = 2048
+    hop_size = 512
 
     # extract Short-Time Fourier Transform
     # despite the single eltter variable names, this is how the documentation does it
-    S = librosa.feature.melspectrogram(y=y, sr=sr,  n_fft=FRAME_SIZE, hop_length=HOP_SIZE)
+    audio_spec = librosa.feature.melspectrogram(y=y, sr=sr,  n_fft=frame_size, hop_length=hop_size)
 
-    S_db = librosa.power_to_db(S, ref=np.max)
+    audio_spec_db = librosa.power_to_db(audio_spec, ref=np.max)
 
     spectrogram_file = os.path.splitext(audio_file)[0] + '_mel_spectrogram.txt'
-    np.savetxt(spectrogram_file, S_db, fmt='%.2f', delimiter=',', comments='# ')
-
+    np.save(spectrogram_file, audio_spec_db)
 
     # plot spectrograms
-    plot_spectrogram(S_db, sr, HOP_SIZE)
+    plot_spectrogram(audio_spec_db, sr, hop_size)
     plt.title(f'Mel-Spectrogram for {os.path.basename(audio_file)} (30 seconds)')
 
 # set the var audio_directory, x Directory containing some of my audio files on desktop
 # SWITCH THIS
+
+
 audio_directory = "/Users/kyledonovan/Desktop/musicForLibrosa"
 
 # process all audio files in the folder
@@ -57,4 +67,3 @@ for root, dirs, files in os.walk(audio_directory):
 
 # show the spectrograms
 plt.show()
-
