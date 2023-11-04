@@ -48,14 +48,14 @@ def process_audio_file(audio_file):
     np.save(spectrogram_file, audio_spec_db)
 
     # plot spectrograms
-    plot_spectrogram(audio_spec_db, sr, hop_size)
-    plt.title(f'Mel-Spectrogram for {os.path.basename(audio_file)} (30 seconds)')
+    # plot_spectrogram(audio_spec_db, sr, hop_size)
+    # plt.title(f'Mel-Spectrogram for {os.path.basename(audio_file)} (30 seconds)')
 
 # set the var audio_directory, x Directory containing some of my audio files on desktop
 # SWITCH THIS
 
 
-audio_directory = "/Users/kyledonovan/Desktop/musicForLibrosa"
+audio_directory = "genres_original"
 
 # process all audio files in the folder
 # edit to individual if individual file processing desired
@@ -66,4 +66,4 @@ for root, dirs, files in os.walk(audio_directory):
             process_audio_file(audio_file)
 
 # show the spectrograms
-plt.show()
+# plt.show()

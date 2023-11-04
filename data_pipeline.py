@@ -24,6 +24,8 @@ def pre_process(data_directory: str) -> tuple:
     # data_directory = args[0]
     data = []
     labels = []
+    dict_genre_labels = {}
+    last_unused_label = 0
 
     # iterate over files in subfolders
     for root, sub_dirs, files in os.walk(data_directory):
@@ -34,10 +36,14 @@ def pre_process(data_directory: str) -> tuple:
                 mel_spectrogram = np.load(os.path.join(root, file))
                 # build lists of matrices and labels
                 data.append(mel_spectrogram)
-                labels.append(subfolder_name)
+                if subfolder_name not in dict_genre_labels:
+                    dict_genre_labels[subfolder_name] = last_unused_label
+                    last_unused_label += 1
+                labels.append(dict_genre_labels[subfolder_name])
 
     # convert to NumPy arrays
     data = np.array(data)
+    data = data[:, :, :, np.newaxis]
     labels = np.array(labels)
 
     # shuffle data
@@ -57,7 +63,7 @@ def create_tensorflow_dataset(data_np_arr, labels_np_arr):
     Function to convert .npy files to tensorflow dataset.
     Used for streaming application.
     """
-    return tf.data.Dataset.from_tensor_slices((data_np_arr, labels_np_arr))
+    return tf.data.Dataset.from_tensor_slices((data_np_arr, labels_np_arr)).batch(4)
 
 
 # TODO: Create function to save dataset file.
@@ -103,37 +109,39 @@ if __name__ == "__main__":
     #           > 'jazz'
 
     # create demo folder and make it the current working directory
-    WORKING_DIRECTORY = 'Demo_Database_Test'
-    os.makedirs(WORKING_DIRECTORY, exist_ok=True)
-    os.chdir(WORKING_DIRECTORY)
-
-    # mock-database folders and subfolders
-    TEST_DATABASE_NAME = 'Demo_Database_Folder'
-    SUBFOLDER_NAMES = ['blues', 'classical', 'jazz']
-
-    # mock-mel-spectrograms
-    ARRAY_ROWS = 4
-    ARRAY_COLUMNS = 6
-    NUM_FILES = 3  # .npy files per subdirectory
-
-    create_directories(TEST_DATABASE_NAME, SUBFOLDER_NAMES)
-    create_numpy_arrays(TEST_DATABASE_NAME, SUBFOLDER_NAMES, ARRAY_ROWS, ARRAY_COLUMNS, NUM_FILES)
+    # WORKING_DIRECTORY = 'Demo_Database_Test'
+    # os.makedirs(WORKING_DIRECTORY, exist_ok=True)
+    # os.chdir(WORKING_DIRECTORY)
+    #
+    # # mock-database folders and subfolders
+    # TEST_DATABASE_NAME = 'Demo_Database_Folder'
+    # SUBFOLDER_NAMES = ['blues', 'classical', 'jazz']
+    #
+    # # mock-mel-spectrograms
+    # ARRAY_ROWS = 4
+    # ARRAY_COLUMNS = 6
+    # NUM_FILES = 3  # .npy files per subdirectory
+    #
+    # create_directories(TEST_DATABASE_NAME, SUBFOLDER_NAMES)
+    # create_numpy_arrays(TEST_DATABASE_NAME, SUBFOLDER_NAMES, ARRAY_ROWS, ARRAY_COLUMNS, NUM_FILES)
     # pre_process(TEST_DATABASE_NAME)
 
-    tf_data, tf_labels = pre_process(TEST_DATABASE_NAME)
+    tf_data, tf_labels = pre_process("genres_original")
 
     tf_dataset = create_tensorflow_dataset(tf_data, tf_labels)
+
+    tf_dataset.save("dataset_file")
 
     print()
     print('typical tensor element shape:')
     print(tf_dataset.element_spec[0])
     print()
 
-    for element in tf_dataset:
-        element_data, element_label = element
-        print(element_label)
-        print(element_data)
-        print()
+    # for element in tf_dataset:
+    #     element_data, element_label = element
+    #     print(element_label)
+    #     print(element_data)
+    #     print()
 
     # # load files created by pre_process() function
     # data = np.load('data.npy')

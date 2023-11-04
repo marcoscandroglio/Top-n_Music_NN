@@ -14,7 +14,7 @@ from keras import layers
 import sys
 
 # Demo training flag set to true to demonstrate training on the MNIST dataset
-DEMO_TRAINING = True
+DEMO_TRAINING = False
 
 
 def build_model():
@@ -24,7 +24,7 @@ def build_model():
     """
     number_of_genres = 10
     # Shape of MNIST is 28 by 28, will update with project shape
-    input = keras.Input(shape=(28, 28, 1))
+    input = keras.Input(shape=(128, 1292, 1))
     # Rescaling puts everything in the range of [0, 1]
     output = layers.Rescaling(scale=1/255)(input)
     # Convolutional layer makes numerous levels of the tensors
@@ -64,26 +64,28 @@ def main():
         # Fit the model over 10 epochs, validating each time
         model.fit(train_images,
                   train_labels,
-                  epochs=10,
+                  epochs=5,
                   validation_data=(test_images, test_labels))
         # Saves the model data to load back in later, or to be used in predictions
         model.save("D:/model_data.keras")
 
     else:
-        path_to_dataset = sys.argv[1]
-        path_to_val_set = sys.argv[2]
+        path_to_dataset = "dataset_file"
+        #path_to_val_set = sys.argv[2]
         # generate the genre and validation datasets
-        genre_dataset = tf.data.Dataset.load(path_to_dataset)
-        val_dataset = tf.data.Dataset.load(path_to_val_set)
+        genre_dataset= tf.data.Dataset.load(path_to_dataset)
+        # print(genre_data.shape())
+        #val_dataset = tf.data.Dataset.load(path_to_val_set)
         model = build_model()
         model.compile(optimizer="RMSprop",
                       loss="sparse_categorical_crossentropy",
                       metrics=[keras.metrics.SparseCategoricalAccuracy(name="Accuracy")])
         model.fit(genre_dataset,
                   epochs=10,
-                  validation_data=val_dataset)
+                  #validation_data=val_dataset
+                  )
 
-        model.save("D:/model_data.keras")
+        model.save("model_data.keras")
 
 
 if __name__ == "__main__":
