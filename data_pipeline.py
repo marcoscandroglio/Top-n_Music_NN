@@ -5,6 +5,7 @@
 # Description: Data pre-processing program for creating training and validation dataset
 
 import os
+import json
 import numpy as np
 import tensorflow as tf
 
@@ -26,6 +27,7 @@ def pre_process(data_directory: str) -> tuple:
     labels = []
     dict_genre_labels = {}
     last_unused_label = 0
+    file_count = 0
 
     # iterate over files in subfolders
     for root, sub_dirs, files in os.walk(data_directory):
@@ -40,6 +42,13 @@ def pre_process(data_directory: str) -> tuple:
                     dict_genre_labels[subfolder_name] = last_unused_label
                     last_unused_label += 1
                 labels.append(dict_genre_labels[subfolder_name])
+                file_count += 1
+                print(f'Processed file: {file_count}', end='\r')
+
+    with open("genre_labels.json", "w") as output_file:
+        json.dump(dict_genre_labels, output_file)
+
+    print(f'{file_count} files were added to the dataset!')
 
     # convert to NumPy arrays
     data = np.array(data)
@@ -126,7 +135,9 @@ if __name__ == "__main__":
     # create_numpy_arrays(TEST_DATABASE_NAME, SUBFOLDER_NAMES, ARRAY_ROWS, ARRAY_COLUMNS, NUM_FILES)
     # pre_process(TEST_DATABASE_NAME)
 
+    print()
     tf_data, tf_labels = pre_process("genres_original")
+    print()
 
     tf_dataset = create_tensorflow_dataset(tf_data, tf_labels)
 

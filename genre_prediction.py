@@ -6,12 +6,13 @@
 
 # imports
 import os
+import json
 import numpy as np
 import tensorflow as tf
 import keras
 from keras import layers
-import json
 import librosa
+import librosa_conversion as libc
 
 
 def save_json_genre_labels():
@@ -60,27 +61,32 @@ def process_audio_file(audio_file):
     audio_spec_db = np.expand_dims(audio_spec_db, axis=0)
     return audio_spec_db
 
-# audio_file_to_predict = "aerosmith_rag_doll.mp3"
-# audio_file_to_predict = "archspire_drone_corpse_aviator.mp3"
-# audio_file_to_predict = "disturbed_ten_thousand_fists.mp3"
-audio_file_to_predict = "queen_another_one_bites.mp3"
-audio_file_array = process_audio_file(audio_file_to_predict)
-trained_model = keras.models.load_model("model_data.keras")
-results = trained_model(audio_file_array)
-results = results.numpy()
-results = results.flatten()
-results = results.tolist()
+# AUDIO_FILE_TO_PREDICT = "aerosmith_rag_doll.mp3"
+# AUDIO_FILE_TO_PREDICT = "archspire_drone_corpse_aviator.mp3"
+# AUDIO_FILE_TO_PREDICT = "disturbed_ten_thousand_fists.mp3"
+# AUDIO_FILE_TO_PREDICT = "queen_another_one_bites.mp3"
 
-with open("genre_labels.json") as input_file:
-    loaded_json_genres = json.load(input_file)
+def predict_genre(audio_file_dir: str, model_name: str) -> None:
+    """
+    Function that takes as an argument a path to an audio file
+    and prints a list of genre predictions.
+    """
+    audio_file_array = process_audio_file(audio_file_dir)
+    trained_model = keras.models.load_model(model_name + '.keras')
+    results = trained_model(audio_file_array)
+    results = results.numpy()
+    results = results.flatten()
+    results = results.tolist()
 
-results_dictionary = {}
-for each_key in loaded_json_genres.keys():
-    results_dictionary[each_key] = results[loaded_json_genres[each_key]]
+    with open("genre_labels.json") as input_file:
+        loaded_json_genres = json.load(input_file)
 
-results_list = results_dictionary.items()
-sorted_results = sorted(results_list, key=lambda genre:genre[1], reverse=True)
-for each_tuple in sorted_results:
-    print(f"{each_tuple[0]} : {each_tuple[1] * 100} %")
+    results_dictionary = {}
+    for each_key in loaded_json_genres.keys():
+        results_dictionary[each_key] = results[loaded_json_genres[each_key]]
 
-
+    results_list = results_dictionary.items()
+    sorted_results = sorted(results_list, key=lambda genre:genre[1], reverse=True)
+    for each_tuple in sorted_results:
+        # print(audio_file_dir)
+        print('\t', f"{each_tuple[0]} : {each_tuple[1] * 100} %")
