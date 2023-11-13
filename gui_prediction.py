@@ -19,7 +19,7 @@ window.geometry(f'{new_width}x{new_height}')
 
 
 def open_music_file():
-    window.filename = filedialog.askopenfilename(filetypes=((".wav", "*.wav"), (".mp3","*.mp3")))
+    window.filename = filedialog.askopenfilename(filetypes=((".wav", "*.wav"), (".mp3", "*.mp3")))
     result_list = predict_genre(window.filename, "model_data")
     results_label_1 = Label(window, text=f"{result_list[0][0]} : {result_list[0][1] * 100}%")
     results_label_2 = Label(window,
@@ -29,6 +29,7 @@ def open_music_file():
     results_label_1.pack()
     results_label_2.pack()
     results_label_3.pack()
+
 
 def open_url():
     url_to_use = url_input.get()
@@ -52,7 +53,6 @@ url_explain = Label(window, text="Or use a YouTube URL").pack()
 url_input = Entry(window)
 url_input.pack()
 get_url_button = Button(window, text="Open YouTube URL", command=open_url).pack()
-
 
 
 window.mainloop()

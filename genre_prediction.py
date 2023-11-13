@@ -8,11 +8,11 @@
 import os
 import json
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
 import keras
-from keras import layers
+# from keras import layers
 import librosa
-import librosa_conversion as libc
+# import librosa_conversion as libc
 
 
 def save_json_genre_labels():
@@ -28,7 +28,6 @@ def save_json_genre_labels():
 
         for file in files:
             if file.endswith(".npy"):
-                mel_spectrogram = np.load(os.path.join(root, file))
                 # build lists of matrices and labels
                 if subfolder_name not in dict_genre_labels:
                     dict_genre_labels[subfolder_name] = last_unused_label
@@ -36,6 +35,7 @@ def save_json_genre_labels():
 
     with open("genre_labels.json", "w") as output_file:
         json.dump(dict_genre_labels, output_file)
+
 
 def process_audio_file(audio_file):
     # load audio file with Librosa, limiting the duration to first 30 seconds
@@ -87,10 +87,11 @@ def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> li
         results_dictionary[each_key] = results[loaded_json_genres[each_key]]
 
     results_list = results_dictionary.items()
-    sorted_results = sorted(results_list, key=lambda genre:genre[1], reverse=True)
+    sorted_results = sorted(results_list, key=lambda genre: genre[1], reverse=True)
     if return_list:
         return [x[1] * 100 for x in results_list]  # list of percentages only
     return sorted_results
+
 
 if __name__ == "__main__":
     audio_paths = [

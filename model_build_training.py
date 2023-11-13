@@ -8,7 +8,7 @@
 # https://keras.io/getting_started/intro_to_keras_for_engineers
 
 # imports
-import sys
+# import sys
 import tensorflow as tf
 import keras
 from keras import layers
@@ -50,23 +50,23 @@ def build_model():
 
 def train_model(path_to_dataset: str, model_name: str) -> None:
     """
-    Function that passes existing dataset to model created 
+    Function that passes existing dataset to model created
     with build_model() saving a trained model.
     """
     # path_to_dataset = "dataset_file"
-    #path_to_val_set = sys.argv[2]
+    # path_to_val_set = sys.argv[2]
     # generate the genre and validation datasets
-    genre_dataset= tf.data.Dataset.load(path_to_dataset)
+    genre_dataset = tf.data.Dataset.load(path_to_dataset)
     # print(genre_data.shape())
-    #val_dataset = tf.data.Dataset.load(path_to_val_set)
+    # val_dataset = tf.data.Dataset.load(path_to_val_set)
     model = build_model()
     model.compile(optimizer="RMSprop",
-                    loss="sparse_categorical_crossentropy",
-                    metrics=[keras.metrics.SparseCategoricalAccuracy(name="Accuracy")])
+                  loss="sparse_categorical_crossentropy",
+                  metrics=[keras.metrics.SparseCategoricalAccuracy(name="Accuracy")])
     model.fit(genre_dataset,
-                epochs=10,
-                #validation_data=val_dataset
-                )
+              epochs=10,
+              # validation_data=val_dataset
+              )
 
     model.save(model_name + ".keras")
 
@@ -103,7 +103,7 @@ def main():
         path_to_val_set = "dataset_file_batch1"
         path_to_dataset = "validation_set_batch1"
         # generate the genre and validation datasets
-        genre_dataset= tf.data.Dataset.load(path_to_dataset)
+        genre_dataset = tf.data.Dataset.load(path_to_dataset)
         # print(genre_data.shape())
         val_dataset = tf.data.Dataset.load(path_to_val_set)
         model = build_model()

@@ -26,7 +26,7 @@ def plot_spectrogram(y, sr, hop_length, y_axis="linear"):
 def process_audio_file(audio_file_path: str, plot=False) -> bool:
     """
     Function that takes as an argument a string representing a path to
-    an individual audio file and converts the audio file to a 
+    an individual audio file and converts the audio file to a
     mel-spectrogram saved as a .npy file.
     """
     # load audio file with Librosa, limiting the duration to first 30 seconds
@@ -96,6 +96,7 @@ def process_audio_database(audio_directory: str) -> None:
 
 # show the spectrograms
 # plt.show()
+
 
 if __name__ == "__main__":
     DIRECTORY = 'genres_original'
