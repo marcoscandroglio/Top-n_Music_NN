@@ -26,18 +26,23 @@ def build_model():
     # Shape of MNIST is 28 by 28, will update with project shape
     input = keras.Input(shape=(128, 1292, 1))
     # Rescaling puts everything in the range of [0, 1]
-    output = layers.Rescaling(scale=1/255)(input)
+    output = layers.Rescaling(scale=1.0/80, offset=1.0)(input)
     # Convolutional layer makes numerous levels of the tensors
     # Relu activation is a rectified logic unit - makes negatives go to zero
     output = layers.Conv2D(filters=32, kernel_size=(3, 3), activation="relu")(output)
     # Average pooling layer pools every 2x2 to its average
-    output = layers.AveragePooling2D(pool_size=(2, 2))(output)
+    output = layers.MaxPooling2D(pool_size=(2, 2))(output)
+    output = layers.Dropout(0.25)(output)
     output = layers.Conv2D(filters=64, kernel_size=(3, 3), activation="relu")(output)
-    output = layers.AveragePooling2D(pool_size=(2, 2))(output)
+    output = layers.MaxPooling2D(pool_size=(2, 2))(output)
+    output = layers.Dropout(0.25)(output)
+    output = layers.Conv2D(filters=128, kernel_size=(3, 3), activation="relu")(output)
+    output = layers.MaxPooling2D(pool_size=(2, 2))(output)
     # Flatten takes the entire system down to a 1D tensor
     output = layers.Flatten()(output)
     # Dropout randomly sets values to zero, to help with overfitting
-    output = layers.Dropout(0.1)(output)
+    output = layers.Dropout(0.5)(output)
+
     # The last dense layer provides the "output" of 10 nodes
     output = layers.Dense(number_of_genres, activation="softmax")(output)
     return keras.Model(input, output)
@@ -93,22 +98,24 @@ def main():
         model.save("D:/model_data.keras")
 
     else:
-        path_to_dataset = "dataset_file"
-        #path_to_val_set = sys.argv[2]
+        # path_to_dataset = "dataset_file_batch25"
+        # path_to_val_set = "validation_set_batch1"
+        path_to_val_set = "dataset_file_batch1"
+        path_to_dataset = "validation_set_batch1"
         # generate the genre and validation datasets
         genre_dataset= tf.data.Dataset.load(path_to_dataset)
         # print(genre_data.shape())
-        #val_dataset = tf.data.Dataset.load(path_to_val_set)
+        val_dataset = tf.data.Dataset.load(path_to_val_set)
         model = build_model()
+        # model.load_weights("model_data_batch25_twoconvlayer.keras")
         model.compile(optimizer="RMSprop",
                       loss="sparse_categorical_crossentropy",
                       metrics=[keras.metrics.SparseCategoricalAccuracy(name="Accuracy")])
         model.fit(genre_dataset,
-                  epochs=10,
-                  #validation_data=val_dataset
+                  epochs=20,
+                  validation_data=val_dataset
                   )
-
-        model.save("model_data.keras")
+        model.save("model_data_val1_posscale_threeconvlayer_20epoch.keras")
 
 
 if __name__ == "__main__":
