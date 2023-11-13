@@ -66,7 +66,8 @@ def process_audio_file(audio_file):
 # AUDIO_FILE_TO_PREDICT = "disturbed_ten_thousand_fists.mp3"
 # AUDIO_FILE_TO_PREDICT = "queen_another_one_bites.mp3"
 
-def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> None:
+
+def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> list:
     """
     Function that takes as an argument a path to an audio file
     and prints a list of genre predictions.
@@ -87,9 +88,23 @@ def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> No
 
     results_list = results_dictionary.items()
     sorted_results = sorted(results_list, key=lambda genre:genre[1], reverse=True)
-    for each_tuple in sorted_results:
-        # print(audio_file_dir)
-        print('\t', f"{each_tuple[0]} : {each_tuple[1] * 100} %")
-
     if return_list:
         return [x[1] * 100 for x in results_list]  # list of percentages only
+    return sorted_results
+
+if __name__ == "__main__":
+    audio_paths = [
+        "./sample_songs/aerosmith_rag_doll.mp3",
+        "./sample_songs/archspire_drone_corpse_aviator.mp3",
+        "./sample_songs/disturbed_ten_thousand_fists.mp3",
+        "./sample_songs/queen_another_one_bites.mp3",
+        "./sample_songs/nirvana_smells_like_teen.wav",
+        "./sample_songs/slipknot_devil_in.wav"
+    ]
+    for each_path in audio_paths:
+        predict_results = predict_genre(each_path, "model_data_val1_posscale_threeconvlayer_20epoch")
+        print(each_path)
+        for each_tuple in predict_results:
+            # print(audio_file_dir)
+            if each_tuple[1] * 100 > 1:
+                print(f"{each_tuple[0]} : {(each_tuple[1] * 100):.4f} %")
