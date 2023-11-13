@@ -66,7 +66,8 @@ def process_audio_file(audio_file):
 # AUDIO_FILE_TO_PREDICT = "disturbed_ten_thousand_fists.mp3"
 # AUDIO_FILE_TO_PREDICT = "queen_another_one_bites.mp3"
 
-def predict_genre(audio_file_dir: str, model_name: str) -> list:
+
+def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> list:
     """
     Function that takes as an argument a path to an audio file
     and prints a list of genre predictions.
@@ -87,6 +88,8 @@ def predict_genre(audio_file_dir: str, model_name: str) -> list:
 
     results_list = results_dictionary.items()
     sorted_results = sorted(results_list, key=lambda genre:genre[1], reverse=True)
+    if return_list:
+        return [x[1] * 100 for x in results_list]  # list of percentages only
     return sorted_results
 
 if __name__ == "__main__":
