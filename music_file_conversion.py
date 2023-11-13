@@ -5,7 +5,7 @@
 # Description: Converts music files to mp3 for use in the NN
 
 import pydub
-import youtube_dl
+import yt_dlp
 
 def audio_conversion(file_path, new_format):
     audio_piece = pydub.AudioSegment.from_file(file_path)
@@ -16,7 +16,7 @@ def youtube_get_audio(genre_string, video_url):
     ydl_opts = {
         # 'outtmpl': 'temp_file_youtube.mp3',
         # 'outtmpl': '%(title)s_%(uploader)s.%(ext)s',
-        'outtmpl': f'{genre_string}.mp3',
+        'outtmpl': f'{genre_string}',
         'format': 'bestaudio/best',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
@@ -24,7 +24,7 @@ def youtube_get_audio(genre_string, video_url):
             'preferredquality': '192'
         }],
     }
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([video_url])
 
 if __name__ == "__main__":
