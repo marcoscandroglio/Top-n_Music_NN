@@ -5,7 +5,7 @@ This software is distributed as-is, and any use of this software in a way that w
 
 ## Requirements
 This software requires the following Python packages, as well as any associated dependencies:
-TensorFlow
-Flask
-FFMPEG (installed, and part of the PATH variable)
-yt-dlp
++ TensorFlow
++ Flask
++ FFMPEG (installed, and part of the PATH variable)
++ yt-dlp
