@@ -23,9 +23,9 @@ def open_music_file():
     result_list = predict_genre(window.filename, "model_data")
     results_label_1 = tk.Label(window, text=f"{result_list[0][0]} : {result_list[0][1] * 100}%")
     results_label_2 = tk.Label(window,
-                            text=f"{result_list[1][0]} : {result_list[1][1] * 100}%")
+                               text=f"{result_list[1][0]} : {result_list[1][1] * 100}%")
     results_label_3 = tk.Label(window,
-                            text=f"{result_list[2][0]} : {result_list[2][1] * 100}%")
+                               text=f"{result_list[2][0]} : {result_list[2][1] * 100}%")
     results_label_1.pack()
     results_label_2.pack()
     results_label_3.pack()
@@ -37,11 +37,11 @@ def open_url():
     result_list = predict_genre("temp_file_youtube.mp3", "model_data")
     os.remove("temp_file_youtube.mp3")
     results_label_1 = tk.Label(window,
-                            text=f"{result_list[0][0]} : {result_list[0][1] * 100}%")
+                               text=f"{result_list[0][0]} : {result_list[0][1] * 100}%")
     results_label_2 = tk.Label(window,
-                            text=f"{result_list[1][0]} : {result_list[1][1] * 100}%")
+                               text=f"{result_list[1][0]} : {result_list[1][1] * 100}%")
     results_label_3 = tk.Label(window,
-                            text=f"{result_list[2][0]} : {result_list[2][1] * 100}%")
+                               text=f"{result_list[2][0]} : {result_list[2][1] * 100}%")
     results_label_1.pack()
     results_label_2.pack()
     results_label_3.pack()
