@@ -8,7 +8,7 @@ app = Flask(__name__)
 # function to determine the genre of the uploaded song or YouTube URL
 def determine_genre(input_path_or_url):
 
-    result_list = predict_genre(input_path_or_url, "model_data_val1_posscale_threeconvlayer_20epoch")
+    result_list = predict_genre(input_path_or_url, "model_data")
     return result_list
 
 @app.route('/')
@@ -45,7 +45,9 @@ def upload():
             return render_template('error.html', error_message="No URL provided")
 
         # use the process_youtube_url function
-        result_list = determine_genre(url)
+        youtube_get_audio(url)
+        result_list = determine_genre("temp_file_youtube.mp3")
+        os.remove("temp_file_youtube.mp3")
 
     return render_template('results.html', result_list=result_list)
 
