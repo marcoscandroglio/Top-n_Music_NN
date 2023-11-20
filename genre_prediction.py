@@ -73,7 +73,7 @@ def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> li
     and prints a list of genre predictions.
     """
     audio_file_array = process_audio_file(audio_file_dir)
-    trained_model = keras.models.load_model(model_name + '.keras')
+    trained_model = keras.models.load_model(model_name + '.h5')
     results = trained_model(audio_file_array)
     results = results.numpy()
     results = results.flatten()
