@@ -103,7 +103,7 @@ if __name__ == "__main__":
         "./sample_songs/slipknot_devil_in.wav"
     ]
     for each_path in audio_paths:
-        predict_results = predict_genre(each_path, "model_data_val1_posscale_threeconvlayer_20epoch")
+        predict_results = predict_genre(each_path, "model_data")
         print(each_path)
         for each_tuple in predict_results:
             # print(audio_file_dir)
