@@ -38,7 +38,11 @@
             <h3 class="mb-3">Prediction Result:</h3>
             <div class="result">
                 <p><strong>The predicted genre of the song is:</strong></p>
-                <p>{{ result_list }}</p>
+                <ol>
+                    {% for each_index in range(result_list | length) %}
+                        <li> {{result_list[each_index][0]}} : {{result_list[each_index][1]}}</li>
+                    {% endfor %}
+                </ol>
             </div>
         </div>
 
