@@ -8,7 +8,7 @@
 import os
 import json
 import numpy as np
-# import tensorflow as tf
+import tensorflow as tf
 import keras
 # from keras import layers
 import librosa
@@ -73,8 +73,10 @@ def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> li
     and prints a list of genre predictions.
     """
     audio_file_array = process_audio_file(audio_file_dir)
-    trained_model = keras.models.load_model(model_name + '.h5')
-    results = trained_model(audio_file_array)
+    # trained_model = keras.models.load_model(model_name + '.keras')
+    trained_model = tf.saved_model.load("model_saved")
+    results = trained_model.serve(audio_file_array)
+    # results = trained_model(audio_file_array)
     results = results.numpy()
     results = results.flatten()
     results = results.tolist()
@@ -102,10 +104,23 @@ if __name__ == "__main__":
         "./sample_songs/nirvana_smells_like_teen.wav",
         "./sample_songs/slipknot_devil_in.wav"
     ]
-    for each_path in audio_paths:
-        predict_results = predict_genre(each_path, "model_data")
-        print(each_path)
-        for each_tuple in predict_results:
-            # print(audio_file_dir)
-            if each_tuple[1] * 100 > 1:
-                print(f"{each_tuple[0]} : {(each_tuple[1] * 100):.4f} %")
+    for root, dirs, files in os.walk("new_6val_originals"):
+        for file in files:
+            if file.lower().endswith(('.wav', '.mp3', '.au')):
+                audio_file = os.path.join(root, file)
+                predict_results = predict_genre(audio_file,
+                                                "model_250set4frame6_32-64-128-256-512fiveconvlayer2kernavg_5e4LR5e4WD_es50epoch")
+                print(audio_file)
+                for each_tuple in predict_results:
+                    # print(audio_file_dir)
+                    if each_tuple[1] * 100 > 1:
+                        print(
+                            f"{each_tuple[0]} : {(each_tuple[1] * 100):.4f} %")
+
+    # for each_path in audio_paths:
+    #     predict_results = predict_genre(each_path, "model_250set4frame6_32-64-128-256-512fiveconvlayer2kernavg_5e4LR5e4WD_es50epoch")
+    #     print(each_path)
+    #     for each_tuple in predict_results:
+    #         # print(audio_file_dir)
+    #         if each_tuple[1] * 100 > 1:
+    #             print(f"{each_tuple[0]} : {(each_tuple[1] * 100):.4f} %")
