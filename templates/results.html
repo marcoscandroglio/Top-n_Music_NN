@@ -40,7 +40,7 @@
                 <p><strong>The predicted genre of the song is:</strong></p>
                 <ol>
                     {% for each_index in range(result_list | length) %}
-                        <li> {{result_list[each_index][0]}} : {{result_list[each_index][1]}}</li>
+                        <li> {{result_list[each_index][0]}} : {{result_list[each_index][1] * 100}}%</li>
                     {% endfor %}
                 </ol>
             </div>
