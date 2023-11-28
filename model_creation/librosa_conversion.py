@@ -41,7 +41,7 @@ def process_audio_file(audio_file_path: str, plot=False) -> bool:
             return False
 
         start_time = 0
-        if song_length > 65.0:
+        if song_length > 130.0:
             start_time = song_length // 2
 
         y, sr = librosa.load(audio_file_path, offset=start_time, duration=30.0)
@@ -57,6 +57,33 @@ def process_audio_file(audio_file_path: str, plot=False) -> bool:
 
         spectrogram_file = os.path.splitext(audio_file_path)[0] + '_mel_spectrogram.txt'
         np.save(spectrogram_file, audio_spec_db)
+
+        if song_length > 130.0:
+            y, sr = librosa.load(audio_file_path, offset=start_time - 30.0, duration=30.0)
+            frame_size = 2048
+            hop_size = 512
+            audio_spec = librosa.feature.melspectrogram(y=y, sr=sr,  n_fft=frame_size, hop_length=hop_size)
+            audio_spec_db = librosa.power_to_db(audio_spec, ref=np.max)
+            spectrogram_file = os.path.splitext(audio_file_path)[0] + '_30bef_mel_spectrogram.txt'
+            np.save(spectrogram_file, audio_spec_db)
+
+        if song_length > 130.0:
+            y, sr = librosa.load(audio_file_path, offset=start_time - 60.0, duration=30.0)
+            frame_size = 2048
+            hop_size = 512
+            audio_spec = librosa.feature.melspectrogram(y=y, sr=sr,  n_fft=frame_size, hop_length=hop_size)
+            audio_spec_db = librosa.power_to_db(audio_spec, ref=np.max)
+            spectrogram_file = os.path.splitext(audio_file_path)[0] + '_60bef_mel_spectrogram.txt'
+            np.save(spectrogram_file, audio_spec_db)
+
+        if song_length > 130.0:
+            y, sr = librosa.load(audio_file_path, offset=start_time + 30.0, duration=30.0)
+            frame_size = 2048
+            hop_size = 512
+            audio_spec = librosa.feature.melspectrogram(y=y, sr=sr,  n_fft=frame_size, hop_length=hop_size)
+            audio_spec_db = librosa.power_to_db(audio_spec, ref=np.max)
+            spectrogram_file = os.path.splitext(audio_file_path)[0] + '_30aft_mel_spectrogram.txt'
+            np.save(spectrogram_file, audio_spec_db)
 
         # plot spectrograms
         if plot:

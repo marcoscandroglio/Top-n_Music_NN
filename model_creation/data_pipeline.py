@@ -45,7 +45,7 @@ def pre_process(data_directory: str) -> tuple:
                 file_count += 1
                 print(f'Processed file: {file_count}', end='\r')
 
-    with open("genre_labels.json", "w") as output_file:
+    with open("../genre_labels.json", "w") as output_file:
         json.dump(dict_genre_labels, output_file)
 
     print(f'{file_count} files were added to the dataset!')
@@ -72,7 +72,7 @@ def create_tensorflow_dataset(data_np_arr, labels_np_arr):
     Function to convert .npy files to tensorflow dataset.
     Used for streaming application.
     """
-    return tf.data.Dataset.from_tensor_slices((data_np_arr, labels_np_arr)).batch(4)
+    return tf.data.Dataset.from_tensor_slices((data_np_arr, labels_np_arr)).batch(1)
 
 
 # TODO: Create function to save dataset file.
