@@ -31,7 +31,7 @@ def audio_conversion(file_path: str, new_format: str) -> None:
 # download-only-audio-from-youtube-video-using-youtube-dl-in-python-script/
 
 
-def youtube_get_audio(video_url: str, genre_string: str ="temp_file_youtube") -> None:
+def youtube_get_audio(video_url: str, genre_string: str = "temp_file_youtube") -> None:
     """
     Download audio from a YouTube video using youtube-dl.
 
@@ -74,4 +74,3 @@ if __name__ == "__main__":
         current_song = genre + str(current_index)
         youtube_get_audio(each_song, current_song)
         current_index += 1
-

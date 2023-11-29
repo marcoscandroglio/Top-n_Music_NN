@@ -81,7 +81,7 @@ def upload():
     elif 'url' in request.form:
         # YouTube URL input
         url = request.form['url']
-        
+
         # make sure this isn't breaking the file upload and results in errors later
         if not url:
             return render_template('error.html', error_message="No URL provided")
