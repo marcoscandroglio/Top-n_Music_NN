@@ -15,7 +15,20 @@ import librosa
 # import librosa_conversion as libc
 
 
-def save_json_genre_labels():
+def save_json_genre_labels() -> None:
+    """
+    Save genre labels in a JSON file based on the structure of the 'genres_original' directory.
+
+    Raises:
+        FileNotFoundError: If 'genres_original' directory does not exist or is not accessible.
+
+    Returns:
+        None
+
+    Example:
+        save_json_genre_labels()
+    """
+
     data_directory = "genres_original"
     if not os.path.isdir(data_directory):
         raise FileNotFoundError(f'{data_directory} does not exist or is not accessible.')
@@ -37,7 +50,22 @@ def save_json_genre_labels():
         json.dump(dict_genre_labels, output_file)
 
 
-def process_audio_file(audio_file):
+def process_audio_file(audio_file: str) -> np.ndarray:
+    """
+    Load an audio file with Librosa, limiting the duration to the first 30 seconds.
+    If the audio file has a duration greater than 65 second then the beginning of the
+    30 second sample starts at the middle of the audio files duration.
+
+    Args:
+        audio_file (str): The path to the audio file.
+
+    Returns:
+        np.ndarray: Processed audio spectrogram as a NumPy array.
+
+    Example:
+        processed_audio = process_audio_file("path/to/audio/file.mp3")
+    """
+
     # load audio file with Librosa, limiting the duration to first 30 seconds
     # if we want a selection which is 30 seconds from the middle and not the beginning,
     # then I will have to read more documentation
@@ -69,9 +97,21 @@ def process_audio_file(audio_file):
 
 def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> list:
     """
-    Function that takes as an argument a path to an audio file
-    and prints a list of genre predictions.
+    Predict genre(s) for an audio file and return the results.
+
+    Args:
+        audio_file_dir (str): The path to the audio file.
+        model_name (str): The name of the trained model used for genre predictions.
+            -- **********lets verify if we are still using the model_name argument**********
+        return_list (bool): If True, return a list of percentages only.
+
+    Returns:
+        Union[List[float], List[tuple]]: List of genre predictions with percentages.
+
+    Example:
+        predict_genre("path/to/audio/file.mp3", "my_trained_model", return_list=True)
     """
+
     audio_file_array = process_audio_file(audio_file_dir)
     # trained_model = keras.models.load_model(model_name + '.keras')
     trained_model = tf.saved_model.load("model_saved")
@@ -90,8 +130,10 @@ def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> li
 
     results_list = results_dictionary.items()
     sorted_results = sorted(results_list, key=lambda genre: genre[1], reverse=True)
+
     if return_list:
         return [x[1] * 100 for x in results_list]  # list of percentages only
+
     return sorted_results
 
 

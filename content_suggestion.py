@@ -8,10 +8,24 @@ import genre_prediction as gp
 
 def build_recommender_db(audio_dir: str, model_name: str, file_name: str) -> None:
     """
-    Function that takes as an argument a string that represents a directory containing audio files.
-    This function iterates through the audio files to build a database/csv file containing
-    audio titles and the genre predictions created by the trained model and saves it.
+    Build a database/csv file containing audio titles and genre predictions.
+
+    Args:
+        audio_dir (str): The directory containing audio files.
+        model_name (str): The name of the trained model used for genre predictions.
+        file_name (str): The name of the CSV file to be created.
+
+    Returns:
+        None
+
+    Note:
+        - The CSV file will have columns: 'title', 'genre_predictions'.
+        - Genre predictions are obtained using the predict_genre function.
+
+    Example:
+        build_recommender_db("path/to/audio/files", "my_trained_model", "audio_database.csv")
     """
+
     if not os.path.exists(audio_dir):
         print(f'ERROR: {audio_dir} is not a valid directory path')
         return
@@ -39,9 +53,19 @@ def build_recommender_db(audio_dir: str, model_name: str, file_name: str) -> Non
 
 def calculate_absolute_difference(input_array: list, content_array: list) -> float:
     """
-    Function that takes two arrays of numbers, performs an element-wise difference,
-    and returns a float that is the sum of the elements of the resulting array.
+    Calculate the absolute difference between two arrays element-wise.
+
+    Args:
+        input_array (List[float]): The first array of numbers.
+        content_array (List[float]): The second array of numbers.
+
+    Returns:
+        float: The sum of the absolute differences between corresponding elements.
+
+    Example:
+        calculate_absolute_difference([1.0, 2.0, 3.0], [4.0, 2.0, 1.0])
     """
+
     # element-wise difference of arrays
     abs_diff = np.abs(content_array - input_array)
     return np.sum(abs_diff)
@@ -49,11 +73,22 @@ def calculate_absolute_difference(input_array: list, content_array: list) -> flo
 
 def recommender(genre_prediction: list, content_db_dir: str, rec_num: int) -> None:
     """
-    Function that takes a list of genre predictions for one audio file,
-    performs the calculations in calculate_absolute_difference() with a preprocessed
-    database, and returns a specified number of content recommendations.
-    Content recommendations are determined by finding the content with a minimal
-    difference in genre prediction values.
+    Provide content recommendations based on genre predictions.
+
+    Args:
+        genre_prediction (List[float]): Genre predictions for one audio file.
+        content_db_dir (str): The path to the preprocessed content CSV file.
+        rec_num (int): The number of content recommendations to return.
+
+    Returns:
+        None
+
+    Note:
+        - The content recommendations are determined by finding minimal
+        differences in genre prediction values.
+
+    Example:
+        recommender([0.1, 0.2, 0.7], "path/to/content_database.csv", 5)
     """
 
     # load preprocessed content .csv as pandas dataframe object

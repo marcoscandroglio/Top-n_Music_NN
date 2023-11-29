@@ -10,10 +10,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_spectrogram(y, sr, hop_length, y_axis="linear"):
+def plot_spectrogram(y: np.ndarray, sr: int, hop_length: int, y_axis: str ="linear") -> None:
     """
-    Function to plot a visualization of a mel-spectrogram.
+    Plot a visualization of a mel-spectrogram.
+
+    Args:
+        y (np.ndarray): Audio time series or spectrogram.
+        sr (int): Sampling rate of `y`.
+        hop_length (int): Number of samples between successive frames.
+        y_axis (str): Scale of the y-axis. Default is "linear".
+
+    Returns:
+        None
+
+    Example:
+        plot_spectrogram(y, sr, hop_length)
     """
+
     plt.figure(figsize=(25, 10))
     librosa.display.specshow(y,
                              sr=sr,
@@ -25,10 +38,19 @@ def plot_spectrogram(y, sr, hop_length, y_axis="linear"):
 
 def process_audio_file(audio_file_path: str, plot=False) -> bool:
     """
-    Function that takes as an argument a string representing a path to
-    an individual audio file and converts the audio file to a
-    mel-spectrogram saved as a .npy file.
+    Convert an audio file to a mel-spectrogram and save as a .npy file.
+
+    Args:
+        audio_file_path (str): Path to the audio file.
+        plot (bool): If True, plot the mel-spectrogram. Default is False.
+
+    Returns:
+        bool: True if the processing is successful, False otherwise.
+
+    Example:
+        process_audio_file("path/to/audio/file.mp3", plot=True)
     """
+
     # load audio file with Librosa, limiting the duration to first 30 seconds
     # if we want a selection which is 30 seconds from the middle and not the beginning,
     # then I will have to read more documentation
@@ -105,9 +127,18 @@ def process_audio_file(audio_file_path: str, plot=False) -> bool:
 
 def process_audio_database(audio_directory: str) -> None:
     """
-    Function that iterates through directory of audio folders
-    and converts each file into a mel-spectrogram using process_audio_file()
+    Convert audio files in a directory to mel-spectrograms using process_audio_file.
+
+    Args:
+        audio_directory (str): Directory containing audio files.
+
+    Returns:
+        None
+
+    Example:
+        process_audio_database("path/to/audio/directory")
     """
+
     # process all audio files in the folder
     # edit to individual if individual file processing desired
     file_count = 0

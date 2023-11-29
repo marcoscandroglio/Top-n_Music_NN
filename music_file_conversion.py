@@ -8,7 +8,21 @@ import pydub
 import yt_dlp
 
 
-def audio_conversion(file_path, new_format):
+def audio_conversion(file_path: str, new_format: str) -> None:
+    """
+    Convert audio file to a specified format using pydub.
+
+    Args:
+        file_path (str): Path to the input audio file.
+        new_format (str): Desired format for the output file.
+
+    Returns:
+        None
+
+    Example:
+        audio_conversion("path/to/audio/file.mp3", "wav")
+    """
+
     audio_piece = pydub.AudioSegment.from_file(file_path)
     audio_piece.export(file_path + ".wav", format=new_format)
 
@@ -16,7 +30,21 @@ def audio_conversion(file_path, new_format):
 # download-only-audio-from-youtube-video-using-youtube-dl-in-python-script/
 
 
-def youtube_get_audio(video_url, genre_string="temp_file_youtube"):
+def youtube_get_audio(video_url: str, genre_string: str ="temp_file_youtube") -> None:
+    """
+    Download audio from a YouTube video using youtube-dl.
+
+    Args:
+        video_url (str): YouTube video URL.
+        genre_string (str): String for the output file name.
+
+    Returns:
+        None
+
+    Example:
+        youtube_get_audio("https://www.youtube.com/watch?v=your_video_id", "temp_file_youtube")
+    """
+
     ydl_opts = {
         # 'outtmpl': 'temp_file_youtube.mp3',
         # 'outtmpl': '%(title)s_%(uploader)s.%(ext)s',

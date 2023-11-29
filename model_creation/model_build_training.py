@@ -17,9 +17,30 @@ import os
 
 def build_model():
     """
-    Creates the model for the Genre Neural Network.
-    :return: returns a Keras Model object, that can then be used for training
+    Build a Convolutional Neural Network (CNN) model for genre classification.
+
+    Returns:
+        A Keras Model object representing the genre classification model.
+
+    Model Architecture:
+        - Input shape: (128, 1292, 1)
+        - Rescales input to the range of [0, 1].
+        - Convolutional layers with ReLU activation.
+        - Max pooling layers.
+        - Dropout layers for regularization.
+        - Dense layer with softmax activation for genre classification.
+
+    Note:
+        The model is designed for a specific input shape (128, 1292, 1).
+
+    Reference:
+        - The model architecture is inspired by common practices in image classification
+        since it utilizes 2-dimensional matrices as training data.
+
+    Returns:
+        A Keras Model object representing the genre classification model.
     """
+
     number_of_genres = 10
     input = keras.Input(shape=(128, 1292, 1))
     # Rescaling puts everything in the range of [0, 1]
@@ -54,9 +75,24 @@ def build_model():
 
 def train_model(path_to_dataset: str, model_name: str) -> None:
     """
-    Function that passes existing dataset to model created
-    with build_model() saving a trained model.
+    Train a genre classification model using the provided dataset and save the trained model.
+
+    Args:
+        path_to_dataset (str): The file path to the dataset for training.
+        model_name (str): The name to be used when saving the trained model.
+
+    Returns:
+        None
+
+    Notes:
+        - The function uses the build_model function to create the neural network architecture.
+        - The model is compiled using RMSprop optimizer and sparse categorical crossentropy loss.
+        - The training is performed for 10 epochs.
+
+    Example:
+        train_model("path/to/dataset.tfrecord", "my_trained_model")
     """
+
     # path_to_dataset = "dataset_file"
     # path_to_val_set = sys.argv[2]
     # generate the genre and validation datasets
