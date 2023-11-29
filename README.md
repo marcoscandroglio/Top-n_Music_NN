@@ -20,8 +20,9 @@ This software also requires Python to be installed, at a version equal to or gre
 2.	Using the command line, install dependencies: 
 3.	Navigate to extracted folder using command line/terminal, then run application. You need python installed, run command `python app.py` or python3 `app.py`
 4.	A series of messages should appear in terminal. Using a browser, navigate to the http address listed. Default is http://127.0.0.1:5000 
-5.	The page should display similarly to this: ![image](https://github.com/pdhopkins/CS467_music_NN/assets/97189054/c401958d-f6e2-4b96-a43a-eac9e666f0cf)
-6. From here, you should be able to upload song files (mp3/aac formats) or select a YouTube song link to determine a genre. For further instructions, please see the How to Use section
+5.	The page should display similarly to this:
+   ![image](https://github.com/pdhopkins/CS467_music_NN/assets/97189054/c401958d-f6e2-4b96-a43a-eac9e666f0cf)
+7. From here, you should be able to upload song files (mp3/aac formats) or select a YouTube song link to determine a genre. For further instructions, please see the How to Use section
 
 # How to Use
 1.	Once you have completed the steps in How to Install and Run, you should have a webpage opened at the address from the command line. 
