@@ -10,12 +10,21 @@ import numpy as np
 import tensorflow as tf
 
 
-def pre_process(data_directory: str) -> tuple:
+def pre_process(data_directory: str) -> tuple[np.ndarray, np.ndarray]:
     """
-    Function that takes as an argument a directory path containing .npy files,
-    concatenates the .npy files into a larger NumPy array while building
-    a list of training labels, and saves both as .npy files in the current
-    working directory.
+    Concatenate .npy files into a NumPy array and build a list of training labels.
+
+    Args:
+        data_directory (str): Directory path containing .npy files.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray]: NumPy arrays representing data and labels.
+
+    Raises:
+        FileNotFoundError: If 'data_directory' does not exist or is not accessible.
+
+    Example:
+        data, labels = pre_process("path/to/data/directory")
     """
 
     # validate function arguments
@@ -69,18 +78,35 @@ def pre_process(data_directory: str) -> tuple:
 
 def create_tensorflow_dataset(data_np_arr, labels_np_arr):
     """
-    Function to convert .npy files to tensorflow dataset.
-    Used for streaming application.
+    Convert NumPy arrays to a TensorFlow dataset.
+
+    Args:
+        data_np_arr (np.ndarray): NumPy array representing data.
+        labels_np_arr (np.ndarray): NumPy array representing labels.
+
+    Returns:
+        tf.data.Dataset: TensorFlow dataset.
+
+    Example:
+        dataset = create_tensorflow_dataset(data, labels)
     """
     return tf.data.Dataset.from_tensor_slices((data_np_arr, labels_np_arr)).batch(1)
 
 
-# TODO: Create function to save dataset file.
-
 # demo script functions
 def create_directories(dir_name: str, subfolder_names: list) -> None:
     """
-    Function that creates a new directory with subdirectories.
+    Create a new directory with subdirectories.
+
+    Args:
+        dir_name (str): Name of the main directory.
+        subfolder_names (list): List of subdirectory names.
+
+    Returns:
+        None
+
+    Example:
+        create_directories("path/to/main/directory", ["subfolder1", "subfolder2"])
     """
 
     os.makedirs(dir_name)
@@ -92,7 +118,20 @@ def create_directories(dir_name: str, subfolder_names: list) -> None:
 def create_numpy_arrays(dir_name: str, subfolder_names: list, array_rows: int,
                         array_columns: int, num_files: int) -> None:
     """
-    Function that creates random matices in subfolders.
+    Create random matrices in subfolders.
+
+    Args:
+        dir_name (str): Name of the main directory.
+        subfolder_names (list): List of subdirectory names.
+        array_rows (int): Number of rows in the random matrices.
+        array_columns (int): Number of columns in the random matrices.
+        num_files (int): Number of random matrices to create in each subfolder.
+
+    Returns:
+        None
+
+    Example:
+        create_numpy_arrays("path/to/main/directory", ["subfolder1", "subfolder2"], 100, 100, 5)
     """
 
     for subfolder in subfolder_names:

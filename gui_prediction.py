@@ -19,7 +19,23 @@ window.geometry(f'{new_width}x{new_height}')
 list_of_labels = []
 
 
-def open_music_file():
+def open_music_file() -> None:
+    """
+    Open a music file dialog, predict its genre, and display the results.
+
+    Potential Args:
+        NOTE: these are global values that could become arguments.
+        list_of_labels (list): List of label widgets to display results.
+        window: Reference to the tkinter window.
+        number_of_genres (int): Number of genres to display.
+
+    Returns:
+        None
+
+    Example:
+        open_music_file()
+    """
+
     for each_label in list_of_labels:
         each_label['text'] = ""
     window.filename = filedialog.askopenfilename(filetypes=((".wav", "*.wav"), (".mp3", "*.mp3")))
@@ -30,7 +46,23 @@ def open_music_file():
         list_of_labels[each_index + 1]['text'] = f"{result_list[each_index][0]} : {(result_list[each_index][1] * 100):.4f}%"
 
 
-def open_url():
+def open_url() -> None:
+    """
+    Open a URL input, download audio, predict its genre, and display the results.
+
+    Potential Args:
+        NOTE: these are global values that could become arguments
+        list_of_labels (list): List of label widgets to display results.
+        url_input: Reference to the tkinter URL input widget.
+        number_of_genres (int): Number of genres to display.
+
+    Returns:
+        None
+
+    Example:
+        open_url()
+    """
+
     for each_label in list_of_labels:
         each_label['text'] = ""
     url_to_use = url_input.get()

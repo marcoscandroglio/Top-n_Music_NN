@@ -6,17 +6,49 @@ import os
 app = Flask(__name__)
 
 # function to determine the genre of the uploaded song or YouTube URL
-def determine_genre(input_path_or_url):
+def determine_genre(input_path_or_url: str) -> list:
+    """
+    Determine the genre of the uploaded song or YouTube URL.
+
+    Args:
+        input_path_or_url (str): Path to the uploaded song or YouTube URL.
+
+    Returns:
+        list: List of tuples containing genre predictions.
+
+    Example:
+        result_list = determine_genre("path/to/song.mp3")
+    """
 
     result_list = predict_genre(input_path_or_url, "model_data")
     return result_list
 
 @app.route('/')
 def index():
+    """
+    Render the index.html template.
+
+    Returns:
+        str: Rendered HTML content.
+
+    Example:
+        return index()
+    """
+
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    """
+    Handle file upload or YouTube URL input and determine the genre.
+
+    Returns:
+        str: Rendered HTML content with the result list.
+
+    Example:
+        return upload()
+    """
+
     result_list = []
 
     if 'song' in request.files:
