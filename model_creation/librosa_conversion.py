@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_spectrogram(y: np.ndarray, sr: int, hop_length: int, y_axis: str ="linear") -> None:
+def plot_spectrogram(y: np.ndarray, sr: float, hop_length: int, y_axis: str = "linear") -> None:
     """
     Plot a visualization of a mel-spectrogram.
 
@@ -52,8 +52,6 @@ def process_audio_file(audio_file_path: str, plot=False) -> bool:
     """
 
     # load audio file with Librosa, limiting the duration to first 30 seconds
-    # if we want a selection which is 30 seconds from the middle and not the beginning,
-    # then I will have to read more documentation
     try:
         song_length = librosa.get_duration(path=audio_file_path)  # returns a float
 
@@ -66,14 +64,18 @@ def process_audio_file(audio_file_path: str, plot=False) -> bool:
         if song_length > 130.0:
             start_time = song_length // 2
 
-        y, sr = librosa.load(audio_file_path, offset=start_time, duration=30.0)
+        audio_data, sample_rate = librosa.load(audio_file_path, offset=start_time, duration=30.0)
 
         frame_size = 2048
         hop_size = 512
 
         # extract Short-Time Fourier Transform
-        # despite the single letter variable names, this is how the documentation does it
-        audio_spec = librosa.feature.melspectrogram(y=y, sr=sr,  n_fft=frame_size, hop_length=hop_size)
+        audio_spec = librosa.feature.melspectrogram(
+            y=audio_data,
+            sr=sample_rate,
+            n_fft=frame_size,
+            hop_length=hop_size
+        )
 
         audio_spec_db = librosa.power_to_db(audio_spec, ref=np.max)
 
@@ -109,7 +111,7 @@ def process_audio_file(audio_file_path: str, plot=False) -> bool:
 
         # plot spectrograms
         if plot:
-            plot_spectrogram(audio_spec_db, sr, hop_size)
+            plot_spectrogram(audio_spec_db, sample_rate, hop_size)
             plt.title(f'Mel-Spectrogram for {os.path.basename(audio_file_path)} (30 seconds)')
 
         return True
@@ -119,11 +121,6 @@ def process_audio_file(audio_file_path: str, plot=False) -> bool:
         print(f"Error loading: {audio_file_path}")
         return False
 
-# set the var audio_directory, x Directory containing some of my audio files on desktop
-# SWITCH THIS
-
-
-# audio_directory = "genres_original"
 
 def process_audio_database(audio_directory: str) -> None:
     """

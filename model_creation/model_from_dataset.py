@@ -1,3 +1,9 @@
+# Names: Kyle Donovan, Philip Hopkins, Marco Scandroglio
+# Course: CS 467 Fall 2023
+# Project: Top-n Music Genre Classification Neural Network
+# GitHub Repo: https://github.com/pdhopkins/CS467_music_NN
+# Description: Program to create a model from a dataset
+
 import os
 import librosa_conversion as libc
 import data_pipeline as dp
@@ -46,9 +52,8 @@ if os.path.exists(SAMPLE_FILE_DIRECTORY) and os.path.isdir(SAMPLE_FILE_DIRECTORY
         if os.path.isfile(item_path) and not item_path.endswith(".npy"):
             print()
             print(item_path)
-            predict_results = gp.predict_genre(item_path, MODEL_NAME)
+            predict_results = gp.predict_genre(item_path)
             for each_tuple in predict_results:
-                # print(audio_file_dir)
                 print('\t', f"{each_tuple[0]} : {each_tuple[1] * 100} %")
 else:
     print(f"The directory '{SAMPLE_FILE_DIRECTORY}' does not exist in '{DATA_DIRECTORY}'.")

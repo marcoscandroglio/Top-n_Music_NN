@@ -1,3 +1,9 @@
+# Names: Kyle Donovan, Philip Hopkins, Marco Scandroglio
+# Course: CS 467 Fall 2023
+# Project: Top-n Music Genre Classification Neural Network
+# GitHub Repo: https://github.com/pdhopkins/CS467_music_NN
+# Description: Flask app.py for web-based GUI
+
 from flask import Flask, render_template, request
 from genre_prediction import predict_genre
 from music_file_conversion import youtube_get_audio
@@ -6,6 +12,8 @@ import os
 app = Flask(__name__)
 
 # function to determine the genre of the uploaded song or YouTube URL
+
+
 def determine_genre(input_path_or_url: str) -> list:
     """
     Determine the genre of the uploaded song or YouTube URL.
@@ -20,8 +28,9 @@ def determine_genre(input_path_or_url: str) -> list:
         result_list = determine_genre("path/to/song.mp3")
     """
 
-    result_list = predict_genre(input_path_or_url, "model_data")
+    result_list = predict_genre(input_path_or_url)
     return result_list
+
 
 @app.route('/')
 def index():
@@ -36,6 +45,7 @@ def index():
     """
 
     return render_template('index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -82,6 +92,7 @@ def upload():
         os.remove("temp_file_youtube.mp3")
 
     return render_template('results.html', result_list=result_list)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

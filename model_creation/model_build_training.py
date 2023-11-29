@@ -116,7 +116,6 @@ def main():
     path_to_val_set = "../new_6valset_4frame_batch1"
     # generate the genre and validation datasets
     genre_dataset = tf.data.Dataset.load(path_to_dataset)
-    # print(genre_data.shape())
     val_dataset = tf.data.Dataset.load(path_to_val_set)
     model = build_model()
 

@@ -9,10 +9,7 @@ import os
 import json
 import numpy as np
 import tensorflow as tf
-import keras
-# from keras import layers
 import librosa
-# import librosa_conversion as libc
 
 
 def save_json_genre_labels() -> None:
@@ -67,8 +64,6 @@ def process_audio_file(audio_file: str) -> np.ndarray:
     """
 
     # load audio file with Librosa, limiting the duration to first 30 seconds
-    # if we want a selection which is 30 seconds from the middle and not the beginning,
-    # then I will have to read more documentation
     song_length = librosa.get_duration(path=audio_file)
     start_time = 0
     if song_length > 65.0:
@@ -80,7 +75,6 @@ def process_audio_file(audio_file: str) -> np.ndarray:
     hop_size = 512
 
     # extract Short-Time Fourier Transform
-    # despite the single eltter variable names, this is how the documentation does it
     audio_spec = librosa.feature.melspectrogram(y=y, sr=sr,  n_fft=frame_size, hop_length=hop_size)
 
     audio_spec_db = librosa.power_to_db(audio_spec, ref=np.max)
@@ -95,14 +89,12 @@ def process_audio_file(audio_file: str) -> np.ndarray:
 # AUDIO_FILE_TO_PREDICT = "queen_another_one_bites.mp3"
 
 
-def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> list:
+def predict_genre(audio_file_dir: str, return_list=False) -> list:
     """
     Predict genre(s) for an audio file and return the results.
 
     Args:
         audio_file_dir (str): The path to the audio file.
-        model_name (str): The name of the trained model used for genre predictions.
-            -- **********lets verify if we are still using the model_name argument**********
         return_list (bool): If True, return a list of percentages only.
 
     Returns:
@@ -113,10 +105,8 @@ def predict_genre(audio_file_dir: str, model_name: str, return_list=False) -> li
     """
 
     audio_file_array = process_audio_file(audio_file_dir)
-    # trained_model = keras.models.load_model(model_name + '.keras')
     trained_model = tf.saved_model.load("model_saved")
     results = trained_model.serve(audio_file_array)
-    # results = trained_model(audio_file_array)
     results = results.numpy()
     results = results.flatten()
     results = results.tolist()
@@ -150,19 +140,9 @@ if __name__ == "__main__":
         for file in files:
             if file.lower().endswith(('.wav', '.mp3', '.au')):
                 audio_file = os.path.join(root, file)
-                predict_results = predict_genre(audio_file,
-                                                "model_250set4frame6_32-64-128-256-512fiveconvlayer2kernavg_5e4LR5e4WD_es50epoch")
+                predict_results = predict_genre(audio_file)
                 print(audio_file)
                 for each_tuple in predict_results:
-                    # print(audio_file_dir)
                     if each_tuple[1] * 100 > 1:
                         print(
                             f"{each_tuple[0]} : {(each_tuple[1] * 100):.4f} %")
-
-    # for each_path in audio_paths:
-    #     predict_results = predict_genre(each_path, "model_250set4frame6_32-64-128-256-512fiveconvlayer2kernavg_5e4LR5e4WD_es50epoch")
-    #     print(each_path)
-    #     for each_tuple in predict_results:
-    #         # print(audio_file_dir)
-    #         if each_tuple[1] * 100 > 1:
-    #             print(f"{each_tuple[0]} : {(each_tuple[1] * 100):.4f} %")

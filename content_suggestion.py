@@ -1,3 +1,9 @@
+# Names: Kyle Donovan, Philip Hopkins, Marco Scandroglio
+# Course: CS 467 Fall 2023
+# Project: Top-n Music Genre Classification Neural Network
+# GitHub Repo: https://github.com/pdhopkins/CS467_music_NN
+# Description: Content suggestion program for the Genre NN
+
 import os
 import ast
 import csv
@@ -6,13 +12,12 @@ import pandas as pd
 import genre_prediction as gp
 
 
-def build_recommender_db(audio_dir: str, model_name: str, file_name: str) -> None:
+def build_recommender_db(audio_dir: str, file_name: str) -> None:
     """
     Build a database/csv file containing audio titles and genre predictions.
 
     Args:
         audio_dir (str): The directory containing audio files.
-        model_name (str): The name of the trained model used for genre predictions.
         file_name (str): The name of the CSV file to be created.
 
     Returns:
@@ -23,7 +28,7 @@ def build_recommender_db(audio_dir: str, model_name: str, file_name: str) -> Non
         - Genre predictions are obtained using the predict_genre function.
 
     Example:
-        build_recommender_db("path/to/audio/files", "my_trained_model", "audio_database.csv")
+        build_recommender_db("path/to/audio/files", "audio_database.csv")
     """
 
     if not os.path.exists(audio_dir):
@@ -47,7 +52,7 @@ def build_recommender_db(audio_dir: str, model_name: str, file_name: str) -> Non
                 track_path = os.path.join(audio_dir, track_name)
                 _, file_extension = os.path.splitext(track_path)
                 if file_extension in file_types:
-                    track_prediction = gp.predict_genre(track_path, model_name, return_list=True)
+                    track_prediction = gp.predict_genre(track_path, return_list=True)
                     csv_writer.writerow([track_name, f'[{",".join(map(str, track_prediction))}]'])
 
 
@@ -113,13 +118,12 @@ if __name__ == "__main__":
 
     # navigate to git directory and run: python3 content_suggestion.py
     RECOMMENDER_DB = './content_suggestion/test_csv'
-    MODEL_TO_USE = './content_suggestion/genre_model'
     PATH_TO_AUDIO = './content_suggestion/samples'
     TRACK_FOR_RECOMMENDER = './content_suggestion/nirvana_smells_like_teen.wav'
     NUMBER_OF_RECOMMENDATIONS = 3
 
     if not os.path.exists(RECOMMENDER_DB):
-        build_recommender_db(PATH_TO_AUDIO, MODEL_TO_USE, RECOMMENDER_DB)
+        build_recommender_db(PATH_TO_AUDIO, RECOMMENDER_DB)
 
-    prediction_list = gp.predict_genre(TRACK_FOR_RECOMMENDER, MODEL_TO_USE, return_list=True)
+    prediction_list = gp.predict_genre(TRACK_FOR_RECOMMENDER, return_list=True)
     recommender(prediction_list, RECOMMENDER_DB, NUMBER_OF_RECOMMENDATIONS)

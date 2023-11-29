@@ -2,7 +2,8 @@
 # Course: CS 467 Fall 2023
 # Project: Top-n Music Genre Classification Neural Network
 # GitHub Repo: https://github.com/pdhopkins/CS467_music_NN
-# Description: Converts music files to mp3 for use in the NN
+# Description: Converts music files to mp3 for use in the NN,
+#              and includes function to get audio from YouTube
 
 import pydub
 import yt_dlp
@@ -46,8 +47,6 @@ def youtube_get_audio(video_url: str, genre_string: str ="temp_file_youtube") ->
     """
 
     ydl_opts = {
-        # 'outtmpl': 'temp_file_youtube.mp3',
-        # 'outtmpl': '%(title)s_%(uploader)s.%(ext)s',
         'outtmpl': f'{genre_string}',
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -62,7 +61,12 @@ def youtube_get_audio(video_url: str, genre_string: str ="temp_file_youtube") ->
 
 if __name__ == "__main__":
     songs_to_convert = [
-        "https://www.youtube.com/watch?v=9VSerKr1vBM"
+        "https://www.youtube.com/watch?v=9VSerKr1vBM",
+        "https://www.youtube.com/watch?v=cTC1TEVo3Aw",
+        "https://www.youtube.com/watch?v=NtBwVWWa3Ss",
+        "https://www.youtube.com/watch?v=EnhIIGfOw4A",
+        "https://www.youtube.com/watch?v=7JR10AThY8M",
+        "https://www.youtube.com/watch?v=xoLE2yEvuPM"
     ]
     genre = "valrock"
     current_index = 0
@@ -71,5 +75,3 @@ if __name__ == "__main__":
         youtube_get_audio(each_song, current_song)
         current_index += 1
 
-    # audio_conversion("nirvana_smells_like_teen.mp3", "wav")
-    # audio_conversion("slipknot_devil_in.mp3", "wav")

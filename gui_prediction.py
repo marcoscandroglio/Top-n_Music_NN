@@ -40,10 +40,11 @@ def open_music_file() -> None:
         each_label['text'] = ""
     window.filename = filedialog.askopenfilename(filetypes=((".wav", "*.wav"), (".mp3", "*.mp3")))
     list_of_labels[0]['text'] = f"Results for file: {os.path.basename(window.filename)}"
-    result_list = predict_genre(window.filename, "model_newdata_60s_threeconvlayer_40epoch")
+    result_list = predict_genre(window.filename)
     display_genre_number = number_of_genres.get()
     for each_index in range(display_genre_number):
-        list_of_labels[each_index + 1]['text'] = f"{result_list[each_index][0]} : {(result_list[each_index][1] * 100):.4f}%"
+        list_of_labels[each_index + 1]['text'] = \
+            f"{result_list[each_index][0]} : {(result_list[each_index][1] * 100):.4f}%"
 
 
 def open_url() -> None:
@@ -68,11 +69,12 @@ def open_url() -> None:
     url_to_use = url_input.get()
     list_of_labels[0]['text'] = f"Results for URL: {url_to_use}"
     youtube_get_audio(url_to_use)
-    result_list = predict_genre("temp_file_youtube.mp3", "model_newdata_60s_threeconvlayer_40epoch")
+    result_list = predict_genre("temp_file_youtube.mp3")
     os.remove("temp_file_youtube.mp3")
     display_genre_number = number_of_genres.get()
     for each_index in range(display_genre_number):
-        list_of_labels[each_index + 1]['text'] = f"{result_list[each_index][0]} : {(result_list[each_index][1] * 100):.4f}%"
+        list_of_labels[each_index + 1]['text'] = \
+            f"{result_list[each_index][0]} : {(result_list[each_index][1] * 100):.4f}%"
 
 
 get_file_button = tk.Button(window, text="Open Music File", command=open_music_file, font=("Times New Roman", 16))
