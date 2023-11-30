@@ -66,7 +66,7 @@ def build_model():
     output = layers.AveragePooling2D(pool_size=(2, 2))(output)
     # Flatten takes the entire system down to a 1D tensor
     output = layers.Flatten()(output)
-    # Dropout randomly sets values to zero, to help with overfitting
+    # Dropout randomly sets values to zero, to help with over fitting
     output = layers.Dropout(0.5)(output)
     # The last dense layer provides the "output" of 10 nodes
     output = layers.Dense(number_of_genres, activation="softmax")(output)
