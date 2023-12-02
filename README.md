@@ -18,6 +18,7 @@ This software requires the following Python packages, as well as any associated 
 + keras~=2.14.0
 + pandas~=2.1.3
 + pydub~=0.25.1
++ yt-dlp~=2023.10.13
 + FFMPEG (installed, and part of the PATH variable)
 
 This software also requires Python to be installed, at a version equal to or greater than 3.xx
