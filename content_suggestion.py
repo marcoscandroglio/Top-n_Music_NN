@@ -5,6 +5,7 @@
 # Description: Content suggestion program for the Genre NN
 
 import os
+import sys
 import ast
 import csv
 import numpy as np
@@ -117,10 +118,17 @@ def recommender(genre_prediction: list, content_db_dir: str, rec_num: int) -> No
 if __name__ == "__main__":
 
     # navigate to git directory and run: python3 content_suggestion.py
-    RECOMMENDER_DB = './content_suggestion/test_csv'
+    RECOMMENDER_DB = './content_suggestion/recommender_csv'
     PATH_TO_AUDIO = './sample_songs'
-    TRACK_FOR_RECOMMENDER = './sample_songs/nirvana_smells_like_teen.mp3'
+    # TRACK_FOR_RECOMMENDER = './sample_songs/nirvana_smells_like_teen.mp3'
     NUMBER_OF_RECOMMENDATIONS = 6
+
+    if len(sys.argv) != 2:
+        print()
+        print("Usage: python3 content_suggestion.py <path-to-audio-file>")
+        sys.exit(1)
+
+    TRACK_FOR_RECOMMENDER = sys.argv[1]
 
     if not os.path.exists(RECOMMENDER_DB):
         build_recommender_db(PATH_TO_AUDIO, RECOMMENDER_DB)
