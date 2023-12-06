@@ -118,9 +118,9 @@ if __name__ == "__main__":
 
     # navigate to git directory and run: python3 content_suggestion.py
     RECOMMENDER_DB = './content_suggestion/test_csv'
-    PATH_TO_AUDIO = './content_suggestion/samples'
-    TRACK_FOR_RECOMMENDER = './content_suggestion/nirvana_smells_like_teen.wav'
-    NUMBER_OF_RECOMMENDATIONS = 3
+    PATH_TO_AUDIO = './sample_songs'
+    TRACK_FOR_RECOMMENDER = './sample_songs/nirvana_smells_like_teen.mp3'
+    NUMBER_OF_RECOMMENDATIONS = 6
 
     if not os.path.exists(RECOMMENDER_DB):
         build_recommender_db(PATH_TO_AUDIO, RECOMMENDER_DB)

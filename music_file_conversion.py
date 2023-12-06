@@ -25,10 +25,13 @@ def audio_conversion(file_path: str, new_format: str) -> None:
     """
 
     audio_piece = pydub.AudioSegment.from_file(file_path)
-    audio_piece.export(file_path + ".wav", format=new_format)
+    # Make sure new filepath is the correct format
+    audio_piece.export(file_path + "." + new_format, format=new_format)
 
+# #############
 # modified from https://stackoverflow.com/questions/27473526/
 # download-only-audio-from-youtube-video-using-youtube-dl-in-python-script/
+# #############
 
 
 def youtube_get_audio(video_url: str, genre_string: str = "temp_file_youtube") -> None:
@@ -45,7 +48,7 @@ def youtube_get_audio(video_url: str, genre_string: str = "temp_file_youtube") -
     Example:
         youtube_get_audio("https://www.youtube.com/watch?v=your_video_id", "temp_file_youtube")
     """
-
+    # set options to have the output be only audio, and filename as chosen
     ydl_opts = {
         'outtmpl': f'{genre_string}',
         'format': 'bestaudio/best',

@@ -48,6 +48,9 @@ This software also requires Python to be installed, at a version equal to or gre
 ## How to Use the Content Suggestion System (DEMONSTRATION)
 1. To see a demonstration of the Content Suggestion System, run the following command: `python content_suggestion.py`. This will display the results of the demo content suggestion.
 
+## Creating Dataset from Scratch
+If you would like to create your own dataset from scratch, you can use the song details found in the model_creation/new_dataset_song_details.csv file.
+
 ## Credits
 Created by Kyle Donovan(https://github.com/kylemdonovan), Philip Hopkins(https://github.com/pdhopkins/CS467_music_NN), and Marco Scandroglio (https://github.com/marcoscandroglio)
 

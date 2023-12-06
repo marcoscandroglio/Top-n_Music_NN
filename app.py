@@ -11,9 +11,8 @@ import os
 
 app = Flask(__name__)
 
+
 # function to determine the genre of the uploaded song or YouTube URL
-
-
 def determine_genre(input_path_or_url: str) -> list:
     """
     Determine the genre of the uploaded song or YouTube URL.

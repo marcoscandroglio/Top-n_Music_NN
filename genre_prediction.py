@@ -14,7 +14,7 @@ import librosa
 
 def save_json_genre_labels() -> None:
     """
-    Save genre labels in a JSON file based on the structure of the 'genres_original' directory.
+    Save genre labels in a JSON file_to_check based on the structure of the 'genres_original' directory.
 
     Raises:
         FileNotFoundError: If 'genres_original' directory does not exist or is not accessible.
@@ -32,12 +32,12 @@ def save_json_genre_labels() -> None:
     dict_genre_labels = {}
     last_unused_label = 0
 
-    # iterate over files in subfolders
-    for root, sub_dirs, files in os.walk(data_directory):
-        subfolder_name = os.path.basename(root)
+    # iterate over check_files in subfolders
+    for check_root, sub_dirs, check_files in os.walk(data_directory):
+        subfolder_name = os.path.basename(check_root)
 
-        for file in files:
-            if file.endswith(".npy"):
+        for file_to_check in check_files:
+            if file_to_check.endswith(".npy"):
                 # build lists of matrices and labels
                 if subfolder_name not in dict_genre_labels:
                     dict_genre_labels[subfolder_name] = last_unused_label
@@ -47,14 +47,14 @@ def save_json_genre_labels() -> None:
         json.dump(dict_genre_labels, output_file)
 
 
-def process_audio_file(audio_file: str) -> np.ndarray:
+def process_audio_file(audio_file_to_process: str) -> np.ndarray:
     """
     Load an audio file with Librosa, limiting the duration to the first 30 seconds.
     If the audio file has a duration greater than 65 second then the beginning of the
     30 second sample starts at the middle of the audio files duration.
 
     Args:
-        audio_file (str): The path to the audio file.
+        audio_file_to_process (str): The path to the audio file.
 
     Returns:
         np.ndarray: Processed audio spectrogram as a NumPy array.
@@ -64,12 +64,12 @@ def process_audio_file(audio_file: str) -> np.ndarray:
     """
 
     # load audio file with Librosa, limiting the duration to first 30 seconds
-    song_length = librosa.get_duration(path=audio_file)
+    song_length = librosa.get_duration(path=audio_file_to_process)
     start_time = 0
     if song_length > 65.0:
         start_time = song_length // 2
 
-    y, sr = librosa.load(audio_file, offset=start_time, duration=30.0)
+    y, sr = librosa.load(audio_file_to_process, offset=start_time, duration=30.0)
 
     frame_size = 2048
     hop_size = 512
@@ -82,11 +82,6 @@ def process_audio_file(audio_file: str) -> np.ndarray:
     audio_spec_db = audio_spec_db[:, :, np.newaxis]
     audio_spec_db = np.expand_dims(audio_spec_db, axis=0)
     return audio_spec_db
-
-# AUDIO_FILE_TO_PREDICT = "aerosmith_rag_doll.mp3"
-# AUDIO_FILE_TO_PREDICT = "archspire_drone_corpse_aviator.mp3"
-# AUDIO_FILE_TO_PREDICT = "disturbed_ten_thousand_fists.mp3"
-# AUDIO_FILE_TO_PREDICT = "queen_another_one_bites.mp3"
 
 
 def predict_genre(audio_file_dir: str, return_list=False) -> list:
@@ -104,9 +99,11 @@ def predict_genre(audio_file_dir: str, return_list=False) -> list:
         predict_genre("path/to/audio/file.mp3", "my_trained_model", return_list=True)
     """
 
+    # Load the saved model and use it to predict the genre
     audio_file_array = process_audio_file(audio_file_dir)
     trained_model = tf.saved_model.load("model_saved")
     results = trained_model.serve(audio_file_array)
+    # Change results to a readable format
     results = results.numpy()
     results = results.flatten()
     results = results.tolist()
@@ -128,15 +125,8 @@ def predict_genre(audio_file_dir: str, return_list=False) -> list:
 
 
 if __name__ == "__main__":
-    audio_paths = [
-        "./sample_songs/aerosmith_rag_doll.mp3",
-        "./sample_songs/archspire_drone_corpse_aviator.mp3",
-        "./sample_songs/disturbed_ten_thousand_fists.mp3",
-        "./sample_songs/queen_another_one_bites.mp3",
-        "./sample_songs/nirvana_smells_like_teen.wav",
-        "./sample_songs/slipknot_devil_in.wav"
-    ]
-    for root, dirs, files in os.walk("new_6val_originals"):
+    # Predict each song in sample_songs
+    for root, dirs, files in os.walk("sample_songs"):
         for file in files:
             if file.lower().endswith(('.wav', '.mp3', '.au')):
                 audio_file = os.path.join(root, file)

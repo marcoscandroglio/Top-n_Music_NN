@@ -93,32 +93,31 @@ def train_model(path_to_dataset: str, model_name: str) -> None:
         train_model("path/to/dataset.tfrecord", "my_trained_model")
     """
 
-    # path_to_dataset = "dataset_file"
-    # path_to_val_set = sys.argv[2]
+    path_to_val_set = "../dataset_file"
     # generate the genre and validation datasets
     genre_dataset = tf.data.Dataset.load(path_to_dataset)
-    # print(genre_data.shape())
-    # val_dataset = tf.data.Dataset.load(path_to_val_set)
+    val_dataset = tf.data.Dataset.load(path_to_val_set)
     model = build_model()
     model.compile(optimizer="RMSprop",
                   loss="sparse_categorical_crossentropy",
                   metrics=[keras.metrics.SparseCategoricalAccuracy(name="Accuracy")])
     model.fit(genre_dataset,
               epochs=10,
-              # validation_data=val_dataset
+              validation_data=val_dataset
               )
 
     model.save(model_name + ".keras")
 
 
 def main():
-    path_to_dataset = "../combined_2k_batch1"
-    path_to_val_set = "../new_6valset_4frame_batch1"
+    path_to_dataset = "../dataset_file"
+    path_to_val_set = "../dataset_file"
     # generate the genre and validation datasets
     genre_dataset = tf.data.Dataset.load(path_to_dataset)
     val_dataset = tf.data.Dataset.load(path_to_val_set)
     model = build_model()
 
+    # compile model with hyperparameters and RMSprop optimizer
     model.compile(
         optimizer=keras.optimizers.RMSprop(
             learning_rate=0.0005,
@@ -128,6 +127,7 @@ def main():
         metrics=[keras.metrics.SparseCategoricalAccuracy(name="Accuracy")])
     save_name = "combined_2k6_32-64-128-256-512fiveconvlayer2kernavg_5e4LR5e4WD_es50epoch"
     os.mkdir("checkpoint/" + save_name)
+    # Add checkpointing for model
     mod_check = tf.keras.callbacks.ModelCheckpoint(
         filepath="checkpoint/" + save_name + "/checkpoint_{epoch}_{val_loss}_{loss}",
         monitor='val_Accuracy',

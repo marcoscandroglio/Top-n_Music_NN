@@ -69,10 +69,6 @@ def pre_process(data_directory: str) -> tuple[np.ndarray, np.ndarray]:
     data = data[random_indices]  # fancy indexing
     labels = labels[random_indices]  # fancy indexing
 
-    # save NumPy arrays to current working directory
-    # np.save('data.npy', data)
-    # np.save('labels.npy', labels)
-
     return data, labels
 
 
@@ -146,6 +142,7 @@ def create_numpy_arrays(dir_name: str, subfolder_names: list, array_rows: int,
 
 if __name__ == "__main__":
 
+    # preprocess and then create a dataset
     print()
     tf_data, tf_labels = pre_process("genres_original")
     print()
@@ -154,6 +151,7 @@ if __name__ == "__main__":
 
     tf_dataset.save("dataset_file")
 
+    # shows the tensor shape
     print()
     print('typical tensor element shape:')
     print(tf_dataset.element_spec[0])
