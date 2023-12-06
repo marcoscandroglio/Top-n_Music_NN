@@ -34,7 +34,7 @@ This software also requires Python to be installed, at a version equal to or gre
 2. A series of messages should appear in terminal. Using a browser, navigate to the http address listed. Default is http://127.0.0.1:5000
 3. Once you have completed the steps to this point, you should have a webpage opened at the address from the command line.
 4. At the webpage, you should see three buttons, one to choose file, one to upload, and one to predict genre. 
-5. From here, you should be able to upload song files (mp3/aac formats) or select a YouTube song link to determine a genre. For further instructions, please see below:
+5. From here, you should be able to upload song files (wav/mp3/au formats) or select a YouTube song link to determine a genre. For further instructions, please see below:
    - Local File Upload: If you want to upload a song file from your computer, select Choose File and find the desired song from your local machine. Then, when the No file chosen text changes to the song file, click the upload button and wait for the genre results to appear.
    - Youtube Link: If you want to predict the genre from a YouTube link, copy and paste the YouTube link into the “Or use a YouTube URL” section and click the “Predict Genre” button and wait for the genre results to appear. 
 6. When finished, close the browser window and use Control-C in the terminal to stop the program.
