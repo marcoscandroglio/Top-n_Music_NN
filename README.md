@@ -45,8 +45,25 @@ This software also requires Python to be installed, at a version equal to or gre
 3. From here, you can choose to either open a music file located on your computer, or type (or paste) in a YouTube URL. You can also choose how many genres from the list you want displayed. Then, press either "Open YouTube URL" or "Open Music File" and wait for the results. 
 4. When finished, press the "Exit Program" button.
 
-## How to Use the Content Suggestion System (DEMONSTRATION)
-1. To see a demonstration of the Content Suggestion System, run the following command: `python content_suggestion.py`. This will display the results of the demo content suggestion.
+## How to Use the Content Suggestion System
+This Python script provides a simple genre recommendation system based on audio file genre predictions. The recommendation system uses a pre-built database of audio titles and their corresponding genre predictions to suggest content similar to a given input audio file.
+
+### Prerequisites
+
+Make sure the `content_suggestion` directory contains a `recommender_csv` file with rows of data. If not, place audio files in the `content_suggestion/sample_songs` directory so a new `recommender_csv` file can be generated. If you want to generate your own `recommender_csv` file, remove the `recommender_csv` file (if it exists) and add your own audio files to the `content_suggestion/sample_songs` directory. See `instructions.txt` in the `content_suggestion/sample_songs` directory for more information.
+
+### Usage
+
+Execute the script by providing the path to the audio file you want recommendations for. For example:
+
+`python3 content_suggestion.py <path-to-audio-file>`
+
+Replace `<path-to-audio-file>` with the actual path to the audio file for which you want genre recommendations. This will output a sorted table with recommended audio titles and their absolute difference values based on genre predictions.
+
+### Notes
+
+   * The CSV file will have columns: 'title', 'genre_predictions'.
+   * Genre predictions are obtained using the predict_genre function from the genre_prediction module.
 
 ## Creating Dataset from Scratch
 If you would like to create your own dataset from scratch, you can use the song details found in the model_creation/new_dataset_song_details.csv file.
