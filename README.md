@@ -14,14 +14,13 @@ This software requires the following Python packages, as well as any associated 
 + tensorflow~=2.14.0
 + numpy~=1.26.1
 + librosa~=0.10.1
-+ matplotlib~=3.5.2
 + keras~=2.14.0
 + pandas~=2.1.3
 + pydub~=0.25.1
 + yt-dlp~=2023.10.13
 + FFMPEG (installed, and part of the PATH variable)
 
-This software also requires Python to be installed, at a version equal to or greater than 3.xx
+This software also requires Python to be installed, at a version equal to or greater than 3.xx, and Pythonxx\ as well as the Pythonxx\Scripts folder should both be part of the PATH variable.
 
 ## How to Install
 1. Download zip of Github repository, then extract. 
