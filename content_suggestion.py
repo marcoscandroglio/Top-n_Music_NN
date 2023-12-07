@@ -122,7 +122,7 @@ if __name__ == "__main__":
     PATH_TO_AUDIO = './sample_songs'
     NUMBER_OF_RECOMMENDATIONS = 6
 
-    # the following code extend the functionality of this program
+    # the following code extends the functionality of this program
     if len(sys.argv) != 2:
         print()
         print("Usage: python3 content_suggestion.py <path-to-audio-file>")
