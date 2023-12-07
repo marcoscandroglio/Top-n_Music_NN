@@ -64,7 +64,7 @@ Replace `<path-to-audio-file>` with the actual path to the audio file for which 
 
 Navigate to the extracted folder and run the following command for a demonstration:
 
-`python3 content_suggestion.py ./sample_songs/aerosmith_rag_doll.mp3`
+`python3 content_suggestion.py ./sample_songs/nirvana_smells_like_teen.mp3`
 
 ### Notes
 
