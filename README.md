@@ -60,6 +60,12 @@ Execute the script by providing the path to the audio file you want recommendati
 
 Replace `<path-to-audio-file>` with the actual path to the audio file for which you want genre recommendations. This will output a sorted table with recommended audio titles and their absolute difference values based on genre predictions.
 
+### Example
+
+Navigate to the extracted folder and run the following command for a demonstration:
+
+`python3 content_suggestion.py ./sample_songs/nirvana_smells_like_teen.mp3`
+
 ### Notes
 
    * The CSV file will have columns: 'title', 'genre_predictions'.
